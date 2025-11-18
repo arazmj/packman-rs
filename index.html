@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pacman Rust WASM</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div id="game-container">
         <h1>Pacman Rust</h1>
         <canvas id="pacman-canvas" width="448" height="496"></canvas>
         <p>Use Arrow Keys to Move</p>
     </div>
+    <div id="error-display" style="color: red; font-family: monospace; padding: 20px; display: none;"></div>
     <script type="module">
         import init from './pkg/pacman_rs.js';
+
+        function showError(msg) {
+            const el = document.getElementById('error-display');
+            el.style.display = 'block';
+            el.innerText = "Error: " + msg;
+            console.error(msg);
+        }
+
+        window.addEventListener('error', function (event) {
+            showError(event.message || "Unknown error occurred");
+        });
+
         async function run() {
-            await init();
+            try {
+                await init();
+            } catch (e) {
+                showError(e);
+            }
         }
         run();
     </script>
 </body>
+
 </html>
