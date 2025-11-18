@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacman Rust WASM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1>Pacman Rust</h1>
+        <canvas id="pacman-canvas" width="448" height="496"></canvas>
+        <p>Use Arrow Keys to Move</p>
+    </div>
+    <script type="module">
+        import init from './pkg/pacman_rs.js';
+        async function run() {
+            await init();
+        }
+        run();
+    </script>
+</body>
+</html>
