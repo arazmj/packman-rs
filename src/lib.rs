@@ -45,6 +45,7 @@ pub fn start() -> Result<(), JsValue> {
         let start_x_clone = start_x.clone();
         let start_y_clone = start_y.clone();
         let touch_start = Closure::wrap(Box::new(move |event: web_sys::TouchEvent| {
+            event.prevent_default(); // Prevent scrolling
             let touches = event.touches();
             if let Some(touch) = touches.get(0) {
                 *start_x_clone.borrow_mut() = touch.client_x() as f64;
@@ -54,8 +55,16 @@ pub fn start() -> Result<(), JsValue> {
         window.add_event_listener_with_callback("touchstart", touch_start.as_ref().unchecked_ref())?;
         touch_start.forget();
 
+        // Touch Move (Prevent scrolling)
+        let touch_move = Closure::wrap(Box::new(move |event: web_sys::TouchEvent| {
+            event.prevent_default(); 
+        }) as Box<dyn FnMut(_)>);
+        window.add_event_listener_with_callback("touchmove", touch_move.as_ref().unchecked_ref())?;
+        touch_move.forget();
+
         // Touch End
         let touch_end = Closure::wrap(Box::new(move |event: web_sys::TouchEvent| {
+            event.prevent_default(); // Prevent scrolling
             let touches = event.changed_touches();
             if let Some(touch) = touches.get(0) {
                 let end_x = touch.client_x() as f64;
