@@ -1,0 +1,15 @@
+{
+  "name": "pacman-rs",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "pacman_rs_bg.wasm",
+    "pacman_rs.js",
+    "pacman_rs.d.ts"
+  ],
+  "main": "pacman_rs.js",
+  "types": "pacman_rs.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
