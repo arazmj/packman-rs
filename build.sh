@@ -9,6 +9,11 @@ rm -rf dist
 mkdir dist
 cp index.html dist/
 cp style.css dist/
+cp icon.png dist/
+
+# Remove .gitignore from pkg to ensure it's tracked
+rm -f pkg/.gitignore
+
 cp -r pkg dist/
 
 echo "Build complete! Artifacts are in the 'dist' folder."
