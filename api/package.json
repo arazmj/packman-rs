@@ -1,0 +1,9 @@
+{
+    "name": "pacman-api",
+    "version": "1.0.0",
+    "description": "API for Pacman Rust Leaderboard",
+    "scripts": {
+        "start": "func start"
+    },
+    "dependencies": {}
+}

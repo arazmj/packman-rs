@@ -7,6 +7,11 @@ use std::rc::Rc;
 use std::cell::RefCell;
 use game::Game;
 
+#[wasm_bindgen]
+extern "C" {
+    fn game_over(score: u32);
+}
+
 #[wasm_bindgen(start)]
 pub fn start() -> Result<(), JsValue> {
     utils::set_panic_hook();
@@ -98,9 +103,16 @@ pub fn start() -> Result<(), JsValue> {
     let g = f.clone();
 
     let game_loop = game.clone();
+    let mut game_over_triggered = false;
+
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
         game_loop.borrow_mut().tick();
         game_loop.borrow().draw(&context);
+
+        if game_loop.borrow().game_over && !game_over_triggered {
+            game_over_triggered = true;
+            game_over(game_loop.borrow().get_score());
+        }
 
         request_animation_frame(f.borrow().as_ref().unwrap());
     }) as Box<dyn FnMut()>));

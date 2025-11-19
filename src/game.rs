@@ -349,6 +349,10 @@ impl Game {
         }
     }
 
+    pub fn get_score(&self) -> u32 {
+        self.score
+    }
+
     pub fn tick(&mut self) {
         if self.game_over {
             return;

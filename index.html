@@ -11,13 +11,32 @@
 
 <body>
     <div id="game-container">
-        <h1>Pacman Rust</h1>
-        <img src="logo.png" alt="ShotorMotor Games" class="logo">
-        <canvas id="pacman-canvas" width="448" height="496"></canvas>
-        <p>Use Arrow Keys to Move</p>
-    </div>
-    <div id="error-display" style="color: red; font-family: monospace; padding: 20px; display: none;"></div>
-    <script type="module">
+        <div class="container">
+            <img src="logo.png" alt="ShotorMotor Games" class="logo">
+            <div id="game-wrapper" style="position: relative;">
+                <canvas id="pacman-canvas" width="448" height="496"></canvas>
+
+                <!-- Game Over Modal -->
+                <div id="game-over-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <h2>GAME OVER</h2>
+                        <p>Score: <span id="final-score">0</span></p>
+                        <input type="text" id="player-name" placeholder="Enter Name" maxlength="10">
+                        <button onclick="submitScore()">Submit Score</button>
+
+                        <h3>Top 10 Players</h3>
+                        <ul id="leaderboard-list">
+                            <li>Loading...</li>
+                        </ul>
+                        <button onclick="location.reload()" style="margin-top: 10px; background: #333;">Play
+                            Again</button>
+                    </div>
+                </div>
+            </div>
+            <p>Use Arrow Keys or Swipe to Move</p>
+        </div>
+        <div id="error-display" style="color: red; font-family: monospace; padding: 20px; display: none;"></div>
+        <script type="module">
         import init from './pkg/pacman_rs.js';
 
         function showError(msg) {
@@ -39,7 +58,7 @@
             }
         }
         run();
-    </script>
+        </script>
 </body>
 
 </html>
