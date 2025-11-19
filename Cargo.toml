@@ -21,4 +21,7 @@ features = [
     "Window",
     "KeyboardEvent",
     "console",
+    "TouchEvent",
+    "TouchList",
+    "Touch",
 ]

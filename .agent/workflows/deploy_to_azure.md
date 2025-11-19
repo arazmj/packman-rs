@@ -80,6 +80,16 @@ If the build fails with "wasm-pack not found" or similar:
   `app_build_command: "curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh && ./build.sh"`
 
 
+### "No matching Static Web App was found or the api key was invalid"
+This error means GitHub Actions cannot authenticate with Azure.
+1.  **Check Secrets**: Go to your GitHub Repo -> Settings -> Secrets and variables -> Actions. Ensure `AZURE_STATIC_WEB_APPS_API_TOKEN_...` exists.
+2.  **Regenerate Token**:
+    - Go to Azure Portal -> Your Static Web App.
+    - Click "Manage deployment token".
+    - Copy the token.
+    - Update the secret in GitHub with the new token.
+3.  **Re-run Workflow**: Go to Actions tab and re-run the failed job.
+
 ## Alternative: Azure CLI
 
 If you have the Azure CLI (`az`) and Static Web Apps CLI (`swa`) installed:
