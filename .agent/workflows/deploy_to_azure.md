@@ -60,8 +60,25 @@ This guide explains how to deploy the Pacman Rust WASM game to Azure Static Web 
    *Note: The `app_build_command` is key here. It installs `wasm-pack` and runs your `./build.sh`.*
 
 4. **Verify Deployment**
-   - Once the GitHub Action completes, go to the Azure Portal resource.
+   - Go to your GitHub repository and click on the **Actions** tab.
+   - You should see a workflow running (e.g., "Azure Static Web Apps CI/CD").
+   - **Wait for it to turn green (Success).**
+   - Once the GitHub Action completes successfully, go back to the Azure Portal resource.
    - Click on the "URL" to view your deployed game.
+
+## Troubleshooting
+
+### "Congratulations on your new site!" Screen
+If you see this screen, it means:
+1. **The deployment hasn't finished yet.** Check the "Actions" tab in your GitHub repository. It can take a few minutes.
+2. **The build failed.** Click on the failed workflow run in GitHub Actions to see the error log.
+3. **Incorrect Output Location.** Ensure "Output location" in your Azure SWA configuration (or workflow file) is set to `dist`.
+
+### Build Failures
+If the build fails with "wasm-pack not found" or similar:
+- Ensure your workflow file includes the custom build command:
+  `app_build_command: "curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh && ./build.sh"`
+
 
 ## Alternative: Azure CLI
 
