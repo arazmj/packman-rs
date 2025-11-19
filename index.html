@@ -37,27 +37,85 @@
         </div>
         <div id="error-display" style="color: red; font-family: monospace; padding: 20px; display: none;"></div>
         <script type="module">
-        import init from './pkg/pacman_rs.js';
+            import init from './pkg/pacman_rs.js';
 
-        function showError(msg) {
-            const el = document.getElementById('error-display');
-            el.style.display = 'block';
-            el.innerText = "Error: " + msg;
-            console.error(msg);
-        }
-
-        window.addEventListener('error', function (event) {
-            showError(event.message || "Unknown error occurred");
-        });
-
-        async function run() {
-            try {
-                await init();
-            } catch (e) {
-                showError(e);
+            function showError(msg) {
+                const el = document.getElementById('error-display');
+                el.style.display = 'block';
+                el.innerText = "Error: " + msg;
+                console.error(msg);
             }
-        }
-        run();
+
+            window.addEventListener('error', function (event) {
+                showError(event.message || "Unknown error occurred");
+            });
+
+            async function run() {
+                try {
+                    await init();
+                } catch (e) {
+                    showError(e);
+                }
+            }
+            run();
+        </script>
+
+        <script>
+            // Global function called from Rust
+            window.game_over = function (score) {
+                document.getElementById('final-score').innerText = score;
+                document.getElementById('game-over-modal').classList.remove('hidden');
+                fetchLeaderboard();
+            };
+
+            async function submitScore() {
+                const name = document.getElementById('player-name').value;
+                const score = parseInt(document.getElementById('final-score').innerText);
+
+                if (!name) {
+                    alert("Please enter a name!");
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/scores', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, score })
+                    });
+                    const scores = await response.json();
+                    updateLeaderboard(scores);
+                    document.getElementById('player-name').disabled = true;
+                } catch (e) {
+                    console.error("Error submitting score:", e);
+                }
+            }
+
+            async function fetchLeaderboard() {
+                try {
+                    const response = await fetch('/api/scores');
+                    const scores = await response.json();
+                    updateLeaderboard(scores);
+                } catch (e) {
+                    console.error("Error fetching leaderboard:", e);
+                    // Mock data if API fails
+                    updateLeaderboard([
+                        { name: "PAC", score: 5000 },
+                        { name: "MAN", score: 4000 },
+                        { name: "RUST", score: 3000 }
+                    ]);
+                }
+            }
+
+            function updateLeaderboard(scores) {
+                const list = document.getElementById('leaderboard-list');
+                list.innerHTML = '';
+                scores.forEach((s, index) => {
+                    const li = document.createElement('li');
+                    li.innerText = `${index + 1}. ${s.name} - ${s.score}`;
+                    list.appendChild(li);
+                });
+            }
         </script>
 </body>
 
