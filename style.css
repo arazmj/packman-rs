@@ -22,7 +22,14 @@ canvas {
 }
 
 h1 {
-    margin-bottom: 10px;
+    margin-top: 20px;
+    font-size: 1.2rem;
     color: #ffcc00;
-    text-shadow: 2px 2px #ff0000;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto 20px auto;
+    max-width: 200px;
+    height: auto;
 }

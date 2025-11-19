@@ -10,6 +10,7 @@ mkdir dist
 cp index.html dist/
 cp style.css dist/
 cp icon.png dist/
+cp logo.png dist/
 
 # Remove .gitignore from pkg to ensure it's tracked
 rm -f pkg/.gitignore
